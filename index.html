@@ -90,18 +90,17 @@
 
   function typeLine(line, callback) {
     textEl.innerText = "";
-    const words = line.split(" ");
     let i = 0;
 
     const interval = setInterval(() => {
-      textEl.innerText += words[i] + " ";
+      textEl.innerText += line.charAt(i);
       i++;
 
-      if (i >= words.length) {
+      if (i >= line.length) {
         clearInterval(interval);
         setTimeout(callback, 1500); // pause between lines
       }
-    }, line.includes("love") ? 600 : 350);
+    }, line.includes("love") ? 120 : 70);
   }
 
   function playLyrics() {
