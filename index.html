@@ -4,57 +4,77 @@
   <title>For You ❤️</title>
   <style>
     body {
+      margin: 0;
+      height: 100vh;
       font-family: 'Arial', sans-serif;
-      background: linear-gradient(#ffdde1, #ee9ca7);
+      overflow: hidden;
+    }
+
+    /* Background photo */
+    .bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("b6e28107-4681-4b1b-828e-7f78e4073ab4.jpg") center/cover no-repeat;
+      animation: slowZoom 40s ease-in-out infinite;
+      filter: blur(2px) brightness(0.7);
+      z-index: -1;
+    }
+
+    @keyframes slowZoom {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .content {
+      height: 100%;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
       text-align: center;
-      margin: 0;
+      color: white;
+      padding: 20px;
     }
-    .box {
-      background: white;
-      padding: 25px;
-      border-radius: 20px;
-      width: 320px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+
+    #text {
+      font-size: 22px;
+      max-width: 320px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+      min-height: 120px;
     }
-    img {
-      width: 100%;
-      border-radius: 15px;
-      margin-bottom: 15px;
-    }
+
     button {
       background: #ff4d6d;
       border: none;
       color: white;
-      padding: 10px 22px;
-      border-radius: 25px;
-      font-size: 16px;
+      padding: 12px 26px;
+      border-radius: 30px;
+      font-size: 17px;
       cursor: pointer;
-      margin-top: 15px;
-    }
-    h2 {
-      min-height: 60px;
     }
   </style>
 </head>
 <body>
 
+<div class="bg"></div>
+
 <audio id="bgMusic" loop>
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 
-<div class="box">
-  <img src="b6e28107-4681-4b1b-828e-7f78e4073ab4.jpeg" alt="Us ❤️">
-  <h2 id="text">Hey ❤️</h2>
-  <button onclick="next()">Tap here</button>
+<div class="content">
+  <div id="text">Hey ❤️</div>
+  <button id="startBtn" onclick="start()">Tap here ❤️</button>
 </div>
 
-<<script>
-  const messages = [
-    "I made this just for you 💕",
+<script>
+  const lines = [
+    "I made this just for you",
     "Because you mean more to me than you know",
     "You turned ordinary days into beautiful memories",
     "You are my comfort my happiness my home",
@@ -62,45 +82,41 @@
     "So I love you more than words can say 💍❤️"
   ];
 
-  let messageIndex = 0;
-  let isTyping = false;
-
-  const textElement = document.getElementById("text");
+  const textEl = document.getElementById("text");
   const music = document.getElementById("bgMusic");
-  const button = document.querySelector("button");
+  const button = document.getElementById("startBtn");
 
-  function typeMessage(message, callback) {
-    isTyping = true;
-    button.disabled = true;
-    textElement.innerText = "";
+  let lineIndex = 0;
 
-    const words = message.split(" ");
+  function typeLine(line, callback) {
+    textEl.innerText = "";
+    const words = line.split(" ");
     let i = 0;
 
     const interval = setInterval(() => {
-      textElement.innerText += words[i] + " ";
+      textEl.innerText += words[i] + " ";
       i++;
 
       if (i >= words.length) {
         clearInterval(interval);
-        isTyping = false;
-        button.disabled = false;
-        if (callback) callback();
+        setTimeout(callback, 1500); // pause between lines
       }
-    }, 550); // speed (ms) — adjust if needed
+    }, line.includes("love") ? 600 : 350);
   }
 
-  function next() {
-    if (isTyping) return;
-
-    if (messageIndex === 0) {
-      music.play();
+  function playLyrics() {
+    if (lineIndex < lines.length) {
+      typeLine(lines[lineIndex], () => {
+        lineIndex++;
+        playLyrics();
+      });
     }
+  }
 
-    if (messageIndex < messages.length) {
-      typeMessage(messages[messageIndex]);
-      messageIndex++;
-    }
+  function start() {
+    music.play();
+    button.style.display = "none";
+    playLyrics();
   }
 </script>
 
