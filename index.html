@@ -42,7 +42,7 @@
 </head>
 <body>
 
-<audio autoplay loop>
+<audio id="bgMusic" loop>
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 
@@ -52,22 +52,54 @@
   <button onclick="next()">Tap here</button>
 </div>
 
-<script>
+<<script>
   const messages = [
     "I made this just for you 💕",
     "Because you mean more to me than you know",
     "You turned ordinary days into beautiful memories",
-    "You are my comfort, my happiness, my home",
+    "You are my comfort my happiness my home",
     "I can’t imagine my future without you",
-    "So I have something important to ask you…",
-    "Will you marry me? 💍❤️"
+    "So I love you more than words can say 💍❤️"
   ];
 
-  let i = 0;
-  function next() {
-    if (i < messages.length) {
-      document.getElementById("text").innerText = messages[i];
+  let messageIndex = 0;
+  let isTyping = false;
+
+  const textElement = document.getElementById("text");
+  const music = document.getElementById("bgMusic");
+  const button = document.querySelector("button");
+
+  function typeMessage(message, callback) {
+    isTyping = true;
+    button.disabled = true;
+    textElement.innerText = "";
+
+    const words = message.split(" ");
+    let i = 0;
+
+    const interval = setInterval(() => {
+      textElement.innerText += words[i] + " ";
       i++;
+
+      if (i >= words.length) {
+        clearInterval(interval);
+        isTyping = false;
+        button.disabled = false;
+        if (callback) callback();
+      }
+    }, 350); // speed (ms) — adjust if needed
+  }
+
+  function next() {
+    if (isTyping) return;
+
+    if (messageIndex === 0) {
+      music.play();
+    }
+
+    if (messageIndex < messages.length) {
+      typeMessage(messages[messageIndex]);
+      messageIndex++;
     }
   }
 </script>
