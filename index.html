@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>For You ❤️</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(#ffdde1, #ee9ca7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      margin: 0;
+    }
+    .box {
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      width: 320px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    img {
+      width: 100%;
+      border-radius: 15px;
+      margin-bottom: 15px;
+    }
+    button {
+      background: #ff4d6d;
+      border: none;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    h2 {
+      min-height: 60px;
+    }
+  </style>
+</head>
+<body>
+
+<audio autoplay loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<div class="box">
+  <img src="b6e28107-4681-4b1b-828e-7f78e4073ab4.jpeg" alt="Us ❤️">
+  <h2 id="text">Hey ❤️</h2>
+  <button onclick="next()">Tap here</button>
+</div>
+
+<script>
+  const messages = [
+    "I made this just for you 💕",
+    "Because you mean more to me than you know",
+    "You turned ordinary days into beautiful memories",
+    "You are my comfort, my happiness, my home",
+    "I can’t imagine my future without you",
+    "So I have something important to ask you…",
+    "Will you marry me? 💍❤️"
+  ];
+
+  let i = 0;
+  function next() {
+    if (i < messages.length) {
+      document.getElementById("text").innerText = messages[i];
+      i++;
+    }
+  }
+</script>
+
+</body>
+</html>
